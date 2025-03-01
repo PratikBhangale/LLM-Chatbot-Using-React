@@ -70,7 +70,7 @@ function App() {
     <div className={styles.App}>
       {isloading && <Loader />}
       <header className={styles.Header}>
-        <img className={styles.Logo} src="/chat-bot.png" />
+        <img className={styles.Logo} src="public\chat-bot.png" />
         <h2 className={styles.Title}>AI Chatbot</h2>
       </header>
       <div className={styles.ChatContainer}>
