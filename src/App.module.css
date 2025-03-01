@@ -27,3 +27,37 @@
     border-radius: 16px;
     overflow-y: auto;
   }
+  .Settings {
+    background: light-dark(#ffffff, #212121);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px;
+  }
+  
+  .Settings form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .Settings input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .Settings button {
+    padding: 8px;
+    background: #00fbff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .SettingsButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }

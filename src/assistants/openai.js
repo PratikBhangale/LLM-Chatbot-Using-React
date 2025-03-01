@@ -8,9 +8,14 @@ const openai = new OpenAI({
 
 export class Assistant {
   #model;
+  #openai;
 
-  constructor(model = "gpt-4o-mini") {
+  constructor(apiKey, model = "gpt-4-turbo-preview") {
     this.#model = model;
+    this.#openai = new OpenAI({
+      apiKey: apiKey,
+      dangerouslyAllowBrowser: true,
+    });
   }
 
   async chat(content, history) {

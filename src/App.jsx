@@ -11,10 +11,23 @@ import { Loader } from "./components/Loader/Loader";
 
 function App() {
 
-  const assistant = new Assistant();
+  // const assistant = new Assistant();
   const [messages, setMessages] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key'));
+  const [showSettings, setShowSettings] = useState(!apiKey);
+
+  // Modify your assistant initialization
+  const assistant = new Assistant(apiKey || '');
+
+  function handleApiKeySubmit(e) {
+    e.preventDefault();
+    const key = e.target.apiKey.value;
+    localStorage.setItem('openai_api_key', key);
+    setApiKey(key);
+    setShowSettings(false);
+  }
 
 
   function updateLastMessageContent(content) {
@@ -26,6 +39,45 @@ function App() {
       )
     );
   }
+  return (
+    <div className={styles.App}>
+      {showSettings ? (
+        <div className={styles.Settings}>
+          <form onSubmit={handleApiKeySubmit}>
+            <input 
+              type="password" 
+              name="apiKey"
+              placeholder="Enter OpenAI API Key"
+              required
+            />
+            <button type="submit">Save Key</button>
+          </form>
+        </div>
+      ) : (
+        <>
+          {isloading && <Loader />}
+          <header className={styles.Header}>
+            <img className={styles.Logo} src="chat-bot.png" />
+            <h2 className={styles.Title}>AI Chatbot</h2>
+            <button 
+              onClick={() => setShowSettings(true)}
+              className={styles.SettingsButton}
+            >
+              ⚙️ Settings
+            </button>
+          </header>
+          <div className={styles.ChatContainer}>
+            <Chat messages={messages} />
+          </div>
+          <Controls
+            isDisabled={isloading || isStreaming}
+            onSend={handleContentSend}
+          />
+        </>
+      )}
+    </div>
+  );
+}
 
 
   function addMessage(message) {
