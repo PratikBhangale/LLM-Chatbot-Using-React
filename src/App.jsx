@@ -5,20 +5,14 @@ import styles from "./App.module.css";
 import { Assistant } from "./assistants/openai";
 import { Loader } from "./components/Loader/Loader";
 
-
-
-
-
 function App() {
-
-  // const assistant = new Assistant();
   const [messages, setMessages] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('openai_api_key'));
   const [showSettings, setShowSettings] = useState(!apiKey);
 
-  // Modify your assistant initialization
+  // Initialize assistant with API key
   const assistant = new Assistant(apiKey || '');
 
   function handleApiKeySubmit(e) {
@@ -29,7 +23,6 @@ function App() {
     setShowSettings(false);
   }
 
-
   function updateLastMessageContent(content) {
     setMessages((prevMessages) =>
       prevMessages.map((message, index) =>
@@ -39,51 +32,6 @@ function App() {
       )
     );
   }
-  return (
-    <div className={styles.App}>
-      {showSettings ? (
-        <div className={styles.Settings}>
-          <form onSubmit={handleApiKeySubmit}>
-            <input 
-              type="password" 
-              name="apiKey"
-              placeholder="Enter OpenAI API Key"
-              required
-            />
-            <button type="submit">Save Key</button>
-          </form>
-        </div>
-      ) : (
-        <>
-          {isloading && <Loader />}
-          <header className={styles.Header}>
-            <img className={styles.Logo} src="chat-bot.png" />
-            <h2 className={styles.Title}>AI Chatbot</h2>
-            <button 
-              onClick={() => setShowSettings(true)}
-              className={styles.SettingsButton}
-            >
-              ⚙️ Settings
-            </button>
-          </header>
-          <div className={styles.ChatContainer}>
-            <Chat messages={messages} />
-          </div>
-          <Controls
-            isDisabled={isloading || isStreaming}
-            onSend={handleContentSend}
-          />
-        </>
-      )}
-    </div>
-  );
-  // }
-
-
-  function addMessage(message) {
-    setMessages((prevMessages) => [...prevMessages, message]);
-  }
-
 
   function addMessage(message) {
     setMessages((prevMessages) => [...prevMessages, message]);
@@ -109,8 +57,9 @@ function App() {
 
       setIsStreaming(false);
     } catch (error) {
+      console.error('Chat Error:', error);
       addMessage({
-        content: "Sorry, I couldn't process your request. Please try again!",
+        content: `Error: ${error.message || 'Something went wrong. Please try again!'}`,
         role: "system",
       });
       setIsLoading(false);
@@ -120,21 +69,43 @@ function App() {
 
   return (
     <div className={styles.App}>
-      {isloading && <Loader />}
-      <header className={styles.Header}>
-        <img className={styles.Logo} src="public\chat-bot.png" />
-        <h2 className={styles.Title}>AI Chatbot</h2>
-      </header>
-      <div className={styles.ChatContainer}>
-        <Chat messages={messages} />
-      </div>
-      <Controls
-        isDisabled={isloading || isStreaming}
-        onSend={handleContentSend}
-      />
+      {showSettings ? (
+        <div className={styles.Settings}>
+          <h2>OpenAI API Settings</h2>
+          <form onSubmit={handleApiKeySubmit}>
+            <input 
+              type="password" 
+              name="apiKey"
+              placeholder="Enter OpenAI API Key"
+              required
+            />
+            <button type="submit">Save Key</button>
+          </form>
+        </div>
+      ) : (
+        <>
+          {isloading && <Loader />}
+          <header className={styles.Header}>
+            <img className={styles.Logo} src="chat-bot.png" alt="Chatbot Logo" />
+            <h2 className={styles.Title}>AI Chatbot</h2>
+            <button 
+              onClick={() => setShowSettings(true)}
+              className={styles.SettingsButton}
+            >
+              ⚙️ Settings
+            </button>
+          </header>
+          <div className={styles.ChatContainer}>
+            <Chat messages={messages} />
+          </div>
+          <Controls
+            isDisabled={isloading || isStreaming}
+            onSend={handleContentSend}
+          />
+        </>
+      )}
     </div>
   );
 }
-
 
 export default App;

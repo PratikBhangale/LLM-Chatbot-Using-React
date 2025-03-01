@@ -1,16 +1,10 @@
-
 import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPEN_AI_API_KEY,
-  dangerouslyAllowBrowser: true,
-});
 
 export class Assistant {
   #model;
   #openai;
 
-  constructor(apiKey, model = "gpt-4-turbo-preview") {
+  constructor(apiKey, model = "gpt-3.5-turbo") {
     this.#model = model;
     this.#openai = new OpenAI({
       apiKey: apiKey,
@@ -20,20 +14,21 @@ export class Assistant {
 
   async chat(content, history) {
     try {
-      const result = await openai.chat.completions.create({
+      const result = await this.#openai.chat.completions.create({
         model: this.#model,
         messages: [...history, { content, role: "user" }],
       });
 
       return result.choices[0].message.content;
     } catch (error) {
+      console.error('OpenAI API Error:', error);
       throw error;
     }
   }
 
   async *chatStream(content, history) {
     try {
-      const result = await openai.chat.completions.create({
+      const result = await this.#openai.chat.completions.create({
         model: this.#model,
         messages: [...history, { content, role: "user" }],
         stream: true,
@@ -43,6 +38,7 @@ export class Assistant {
         yield chunk.choices[0]?.delta?.content || "";
       }
     } catch (error) {
+      console.error('OpenAI API Error:', error);
       throw error;
     }
   }

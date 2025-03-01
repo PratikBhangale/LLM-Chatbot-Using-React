@@ -30,8 +30,10 @@
   .Settings {
     background: light-dark(#ffffff, #212121);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 16px;
     margin: 20px;
+    width: 100%;
+    max-width: 400px;
   }
   
   .Settings form {
@@ -41,17 +43,25 @@
   }
   
   .Settings input {
-    padding: 8px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
+    background: light-dark(#f3f3f3, #303030);
+    color: light-dark(#0d0d0d, #ececec);
   }
   
   .Settings button {
-    padding: 8px;
+    padding: 12px;
     background: #00fbff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
+    color: #0d0d0d;
+    font-weight: bold;
+  }
+  
+  .Settings button:hover {
+    background: #02d8e0;
   }
   
   .SettingsButton {
@@ -60,4 +70,9 @@
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    color: light-dark(#0d0d0d, #ececec);
+  }
+  
+  .SettingsButton:hover {
+    opacity: 0.8;
   }
