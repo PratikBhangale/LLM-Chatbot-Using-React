@@ -77,7 +77,7 @@ function App() {
       )}
     </div>
   );
-}
+  // }
 
 
   function addMessage(message) {
