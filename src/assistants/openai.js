@@ -4,7 +4,7 @@ export class Assistant {
   #model;
   #openai;
 
-  constructor(apiKey, model = "gpt-3.5-turbo") {
+  constructor(apiKey, model = "gpt-4o-mini") {
     this.#model = model;
     this.#openai = new OpenAI({
       apiKey: apiKey,
