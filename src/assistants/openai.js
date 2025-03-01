@@ -9,6 +9,12 @@ export class Assistant {
     this.#openai = new OpenAI({
       apiKey: apiKey,
       dangerouslyAllowBrowser: true,
+      baseURL: 'https://api.openai.com/v1',
+      defaultHeaders: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      defaultQuery: undefined,
     });
   }
 

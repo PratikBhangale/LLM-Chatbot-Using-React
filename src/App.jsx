@@ -15,9 +15,44 @@ function App() {
   // Initialize assistant with API key
   const assistant = new Assistant(apiKey || '');
 
-  function handleApiKeySubmit(e) {
+  async function validateApiKey(key) {
+    try {
+      const response = await fetch('https://api.openai.com/v1/models', {
+        headers: {
+          'Authorization': `Bearer ${key}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Invalid API key');
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('API Key validation error:', error);
+      return false;
+    }
+  }
+
+  async function handleApiKeySubmit(e) {
     e.preventDefault();
-    const key = e.target.apiKey.value;
+    const key = e.target.apiKey.value.trim();
+    
+    if (!key.startsWith('sk-')) {
+      alert('Please enter a valid OpenAI API key (starts with sk-)');
+      return;
+    }
+
+    setIsLoading(true);
+    const isValid = await validateApiKey(key);
+    setIsLoading(false);
+
+    if (!isValid) {
+      alert('Invalid API key. Please check your key and try again.');
+      return;
+    }
+
     localStorage.setItem('openai_api_key', key);
     setApiKey(key);
     setShowSettings(false);
