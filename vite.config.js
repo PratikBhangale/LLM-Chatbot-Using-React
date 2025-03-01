@@ -7,20 +7,13 @@ export default defineConfig({
   base: '/LLM-Chatbot-Using-React/',
   build: {
     rollupOptions: {
+      input: {
+        main: './src/main.jsx'  // Explicitly specify the entry point
+      },
       output: {
-        // This will help prevent the use of eval() in the production build
-        format: 'iife',
+        format: 'es'
       }
     },
-    // Ensure proper CSP compatibility
-    target: 'esnext',
-    minify: 'terser',
-    terserOptions: {
-      format: {
-        // This helps prevent the creation of code that requires eval
-        comments: false,
-        ecma: 2020,
-      },
-    },
-  },
+    minify: 'esbuild'
+  }
 })
