@@ -17,15 +17,12 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: './src/main.jsx'  // Explicitly specify the entry point
-      },
       output: {
-        format: 'es',
         sanitizeFileName: (name) => name.replace(/[<>:"/\\|?*]+/g, '-'),
       }
-    },
-    minify: 'esbuild'
+    }
   }
 })
