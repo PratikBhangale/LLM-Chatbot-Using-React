@@ -2,6 +2,10 @@
 
 This project is a chatbot application built with React and Vite, utilizing the OpenAI API for generating responses. It features a user-friendly interface for interacting with the chatbot and managing API keys.
 
+The website is live at https://pratikbhangale.github.io/LLM-Chatbot-Using-React/ .
+
+Click on Settings, enter OpenAI API key, and enjoy the webapp.
+
 ## Features
 
 - **Real-time Chat**: Communicate with the AI in real-time.
